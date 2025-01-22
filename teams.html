@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Team Formation</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .team {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            min-width: 200px; 
+        }
+
+        .team h2 {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="formTeams()">Select Teams</button>
+
+    <div id="team-info" class="team-container"></div>
+
+    <script>
+        function formTeams() {
+            const totalStudents = 58;
+            const students = [];
+            for (let i = 1; i <= totalStudents; i++) {
+                students.push(i);
+            }
+
+            shuffleArray(students);
+
+            const teamSizes = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4];
+            const teams = [];
+            let teamIndex = 0;
+
+            for (let i = 0; i < students.length; i++) {
+                if (!teams[teamIndex]) {
+                    teams[teamIndex] = [];
+                }
+                teams[teamIndex].push(students[i]);
+
+                if (teams[teamIndex].length === teamSizes[teamIndex]) {
+                    teamIndex++;
+                }
+            }
+
+            const teamInfoDiv = document.getElementById("team-info");
+            teamInfoDiv.innerHTML = "";
+
+            for (let i = 0; i < teams.length; i++) {
+                const teamDiv = document.createElement("div");
+                teamDiv.classList.add("team");
+
+                const teamHeading = document.createElement("h2");
+                teamHeading.textContent = `Team ${i + 1}`;
+                teamDiv.appendChild(teamHeading);
+
+                const teamList = document.createElement("ul");
+                teams[i].forEach(student => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = student;
+                    teamList.appendChild(listItem);
+                });
+                teamDiv.appendChild(teamList);
+
+                teamInfoDiv.appendChild(teamDiv);
+            }
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+    </script>
+
+</body>
+</html>
